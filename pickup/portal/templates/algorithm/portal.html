@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+<script src="https://code.jquery.com/jquery-3.1.0.min.js"></script>
+<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/socket.io/1.3.6/socket.io.min.js"></script>
+<script>
+	function val() {
+		d = document.getElementById("nations").value;
+		$.ajax( {
+			type: "GET",
+        	url: '{% url 'cities' %}',
+        	data: {country: d},
+        success: function( data ) {
+        	let cities = data['cities']
+        	document.search.cities.options.length=0
+        	
+        	for (i=0;i<cities.length;i++) {
+        			document.search.cities.options[i]=new Option(cities[i],cities[i])
+        	}
+        }
+		})
+
+	}
+</script>
+
+<style>
+	#submit {
+		border: 2px solid black;width:30%;border-color:white;
+		border-radius:4px;align-items:center;
+		padding: 12px;border:darkblue 5px solid;
+		width: 25%;cursor:pointer;
+		font-size: 25px;
+		background-color: black;
+		color: white;
+		margin-top: 30px;
+		font-family: times;
+
+	}
+	body {
+		background-image: url("/static/portal/portal.png");
+		background-size:50%;
+		background-repeat:repeat;
+/*  		filter: blur(5px);
+  		-webkit-filter: blur(5px); */
+  		border:0px solid black;
+  		/*background-size:cover;
+  		background-position:center;
+  		/*z-index:-1;*/
+
+	}
+	#bk-img {
+		background-color:white;
+		width:50%;
+		height:75%;
+		position:absolute;
+		top:12.5%;
+		left:25%;
+		border: 5px solid black;
+
+
+	}
+</style>
+<head>
+	<title>Pickup Basketball</title>
+</head>
+<body>
+<button type="button" style="padding:10px;height:50px;background-color:black;color:white;font-size:20px;font-family:times;border-color:white;float:right;cursor:pointer;" onclick="location.href = '{% url 'logoutuser' %}'">Logout, {{ username }}</button>
+{% load static %}
+<div id="bk-img">
+<h1 style="color:darkblue;font-size:50px;font-weight:bold;text-align:center;margin-bottom:0px">Basketball Pickup</h1>
+<h2 style="color:darkblue;font-size:30px;font-weight:bold;text-align:center" >Select Location</h2>
+
+<form method="post" name="search" action="{% url 'pickups' %}">
+<input type="hidden" name="sort" value="alphabetically">
+<label style="font-size:40px;align-content:center;margin-left:20px;color:darkred" for="nations">Country:</label>
+<select onchange="val()" style="font-size:30px;width:80%;color:darkred;border-color:black;margin-bottom:30px" name="nations" id="nations">
+{% for country in countries %}
+<option value="{{country}}">{{country}}</option>
+{% endfor %}
+</select>
+<br>
+<label style="font-size:40px;align-content:center;margin-left:20px;color:darkred;margin-left:8.5%" for="cities">City:</label>
+<select style="font-size:30px;width:80%;color:darkred;border-color:black" name="cities" id="cities">
+{% for city in cities %}
+<option value="{{country}}">{{city.name}}</option>
+{% endfor %}
+</select>
+{% csrf_token %}
+<center><input style="" id="submit" type="submit" name="submit" value="Search Pickups"><br>
+<input style="" id="submit" type="submit" name="submit" value="Create Event">
+</center>
+
+</form>
+
+
+</div>
+
+</body>
+</html>

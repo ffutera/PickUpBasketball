@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+<style>
+body {
+		background-image: url("/static/portal/pickup.jpg");
+		background-size:55%;
+		background-repeat:repeat;
+  		border:0px solid black;
+  		background-position:center;
+  	}
+#bk-img {
+		background-color:white;
+		width:50%;
+		height:75%;
+		position:absolute;
+		top:12%;
+		left:25%;
+		border: 5px solid black;
+		background-color: beige
+	}
+#back {
+		padding:10px;height:50px;background-color:black;color:white;font-size:20px;font-family:times;border-color:white;float:right;cursor:pointer;
+	}
+#event {
+	font:20px solid black;font-family:chalkboard;border-bottom:black 2px solid;background-color:beige;overflow:auto;background-color:lightsalmon;padding:3px;font-weight:italic;color:darkblue;cursor:pointer;padding-top:5px;padding-bottom:5px;
+}
+#submit {
+	background-color: black;
+	font-family:Times;
+	color:white;
+}
+
+</style>
+
+<head>
+	<title>Pickup</title>
+</head>
+
+<body>
+<form method="get" action="{% url 'portal' %}">{% csrf_token %}<button id="back" type="submit">Go Back</button></form>
+<button type="button" style="padding:10px;height:50px;background-color:black;color:white;font-size:20px;font-family:times;border-color:white;float:right;cursor:pointer;" onclick="location.href = '{% url 'logoutuser' %}'">Logout, {{ username }}</button>
+<center>
+<div id="bk-img">
+<h1 style="color:darkblue;font-size:50px;font-weight:bold;text-align:center;margin-bottom:0px">Active Events</h1>
+<form action="{% url 'pickups' %}" method="post">
+	{% csrf_token %}
+	<input type="hidden" name="cities" value="{{ city }}">
+	<input type="hidden" name="nations" value="{{ country }}">
+	<input type="radio" id="alpha" name="sort" value="alphabeticaly" checked=checked>
+  	<label for="alpha">Alphabetic</label>
+  	<input type="radio" id="pop" name="sort" value="popularity">
+  	<label for="pop">Popularity</label>
+  	<button type="submit" id="submit">Apply filter</button>
+
+</form>
+<div id="events" style="width:90%;height:80%;border:black 3px solid;margin-top:2%;overflow:auto">
+{% for event in events %}
+
+<div id="event" value="{{event.id}}"onclick="location.href='{% url 'event' event.id %}'" >
+<p>{{event.name}} </p>
+<p>{{event.date}} - {{event.address}}. </p>
+</div>
+
+{% empty %}
+<h1>Empty</h1>
+
+{% endfor %}
+</div>
+
+</div>
+</center>
+
+</body>
+
+</html>

@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<script src="https://code.jquery.com/jquery-3.1.0.min.js"></script>
+<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/socket.io/1.3.6/socket.io.min.js"></script>
+<script>
+
+</script>
+<style>
+
+body {
+		background-image: url("/static/portal/event.png");
+		background-size:cover;
+		margin-top:55%;height:80%;
+		background-repeat:no-repeat;
+  		border:0px solid black;
+  		background-position:center;
+  	}
+#bk-img {
+		background-color:white;
+		width:60%;
+		height:90%;
+		position:absolute;
+		top:5%;
+		left:20%;
+		border: 5px solid black;
+		background-color: beige;
+		overflow: auto;
+	}
+#back {
+		padding:10px;height:50px;background-color:black;color:white;font-size:20px;font-family:times;border-color:white;float:right;cursor:pointer;position:absolute;top:7px;right:7px;
+	}
+#logout {
+	position: absolute;top:7px;right:105px;
+}
+#chat {
+	width:80%;margin-left:10%;margin-top:4%;
+	height:65%;
+	outline:5px solid black;
+	background-color:white;
+}
+#message {
+	outline:5px solid black;width:69%;margin-left:10%;margin-top:5px;
+	font-size:20px;margin-right:5px;
+}
+#submit {
+	position: relative;margin-left:2px;padding:8px;height:20%;font-size:18px;margin-top:10px;font-family: chalkboard;
+	width:9.7%;outline:solid black 3px;height:40px;background-color:black;color: white
+}
+</style>
+
+<html>
+{% load static %}
+<head>
+	<title>{{event.name}}</title>
+</head>
+<body>
+<form method="get" action="{% url 'portal' %}">{% csrf_token %}<button id="back" type="submit">Go Back</button></form>
+<button type="button" style="padding:10px;height:50px;background-color:black;color:white;font-size:20px;font-family:times;border-color:white;float:right;cursor:pointer;" id="logout" onclick="location.href = '{% url 'logoutuser' %}'">Logout, {{ username }}</button>
+<div id="bk-img">
+<h1 style="color:darkblue;font-size:40px;font-weight:bold;text-align:center;margin-bottom:0px;margin-left:5px;margin-right:5px">Event: {{event.name}}</h1>
+<h1 style="color:darkred;font-size:30px;font-weight:bold;text-align:center;margin-bottom:0px;margin-left:5px;margin-right:5px">Played at {{event.address}}. {{event.date}}</h1>
+<div id="chat">
+{% for message in messages %}
+{% if message.author.username == user.username %}
+<right><p style="color:darkred;font-size:25px;margin-bottom:5px;margin-top:0px;margin-left:5px;text-align:right;margin-right:5px">[You]: {{message.content}}</p></right>
+{% else %}
+<p style="color:darkblue;font-size:25px;margin-bottom:5px;margin-top:0px;margin-left:5px">[{{message.author}}]: {{message.content}}</p>
+{% endif %}
+{% endfor %}
+</div>
+<form id="send" action="{% url 'post' event.id %}" method="post">
+	{% csrf_token %}
+	<input type="text" id="message" name="message" placeholder="Send to information board..." minlength=1 maxlength=75 required=required>
+	<input id="submit" type="submit" value="Post">
+</form>
+<center><br>
+{% if bool %}
+<p style="color:darkred;font-size:20px;font-weight:bold">You are already attending this event!</p>
+{% else %}
+<form action="{% url 'going' event.id %}" method="post">
+	{% csrf_token %}
+	<input style="width:10%;height:10%;color:white;background-color: black;font-family:times;font-size:20px;padding:5px" id="but" type="submit" value="Going">
+	
+</form>
+{% endif %}
+</center>
+</div>
+
+</body>
+
+</html>

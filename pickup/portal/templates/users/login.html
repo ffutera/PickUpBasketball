@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Login</title>
+</head>
+<style>
+	body {
+		background-color:white;
+	}
+	#form{
+		display: block;
+		text-align:center;
+
+	}
+	#password,#username {
+		border: 2px solid black;
+		border-radius:4px;
+		padding: 25px;
+		width: 50%;
+		font-size: 15px;
+		font-family: chalkboard;
+
+
+	}
+	#submit {
+		border: 2px solid black;cursor:pointer;
+		border-radius:4px;
+		padding: 12px;
+		width: 25%;
+		font-size: 20px;
+		background-color: black;
+		color: white;
+		margin-top: 10px;
+		font-family: times;
+
+	}
+	#register {
+		font-family: Times;
+		font-size: 25px;
+		padding: 10px;
+	}
+	#error {
+		color: darkred;
+		font-size: 20px;
+		font-family: chalkboard;
+		font-weight:bold;
+	}
+	
+	</style>
+<body>
+	<div style="background-color:skyblue;height:800px;width:50%;position:absolute;margin: 100px auto;margin-left:25%;border-color:black;border-width:2px;border-style:solid;box-shadow:20px 20px 10px grey">
+	<h1 style="color:darkblue;font-size:75px;text-align:center;font-family: Times;margin-top:10%">Login Page</h1>
+	<em><p id="error" style="padding:0px;margin;text-align:center">{{ message }}</p></em>
+	<div id = "form">
+	<form action="{% url 'loginuser' %}" method="post" style="margin-bottom:5px">
+    {% csrf_token %}
+ 	 <input style="width:50%" minlength=3 type="text" id="username" name="username" placeholder="Username" required><br>
+ 	 <input style="width:50%" minlength=3 type="password" id="password" name="password" placeholder="Password" required><br>
+ 	 <input style="width:30%;border-color:white" id="submit" type="submit" value="Login"><br>
+	</form>
+	<button type="button" style="width:30%;height:50px;background-color:black;color:white;font-size:20px;font-family:times;border-color:white;cursor:pointer;" onclick="location.href = '{% url 'register' %}'">Create Account</button>
+	</div>
+</div>
+</body>
+</html>

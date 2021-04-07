@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Create Event</title>
+</head>
+<style>
+	body {
+		background-color:white;
+	}
+	#form{
+		display: block;
+		text-align:center;
+
+	}
+	#date,#name {
+		border: 2px solid black;
+		border-radius:4px;
+		padding: 25px;
+		width: 50%;
+		font-size: 15px;
+		font-family: chalkboard;
+		margin-bottom:1%;
+
+
+	}
+	#submit {
+		border: 2px solid black;
+		border-radius:4px;cursor:pointer;
+		padding: 12px;
+		width: 25%;
+		font-size: 20px;
+		background-color: black;
+		color: white;
+		margin-top: 10px;
+		font-family: times;
+
+	}
+
+	#error {
+		color: darkred;
+		font-size: 20px;
+		font-family: chalkboard;
+		font-weight:bold;
+	}
+#back {
+		padding:10px;height:50px;
+		background-color:black;
+		color:white;
+		font-size:20px;
+		font-family:times;
+		border-color:white;
+		float:right;
+		cursor:pointer;
+	}
+	
+	</style>
+<body>
+	<form method="get" action="{% url 'portal' %}">{% csrf_token %}<button id="back" type="submit">Go Back</button></form>
+	<div style="background-color:gold;height:800px;width:50%;position:absolute;margin: 100px auto;margin-left:25%;border-color:black;border-width:2px;border-style:solid;box-shadow:20px 20px 10px grey">
+	<h1 style="color:darkblue;font-size:75px;text-align:center;font-family;Times;margin-top:5%;margin-bottom:5%">Create Event</h1>
+	<h2 style="color:indigo;font-size:50px;text-align:center;font-family;Times;margin-top:1%">{{city}}</h2>
+	<i><p id="error" style="padding:0px;margin;text-align:center">{{ message }}</p></i>
+	<div id = "form">
+	<form action="{% url 'add' city.id %}" method="post" style="margin-bottom:5px">
+    {% csrf_token %}
+ 	 <input style="width:50%" minlength=3 maxlength=75 type="text" id="name" name="name" placeholder="Event name" required><br>
+ 	 <input style="width:50%" minlength=4 maxlength=75 type="text" id="name" name="address" placeholder="Event Adress (Flamingo Park FL 33139)" required><br>
+	<input type="date" id="date" name="event-date" value="{{date}}" min="{{date}}" max="2021-12-31"> <br>
+	<input style="width:30%;border-color:white" id="submit" type="submit" value="Create Event"><br>
+	</form>
+
+	</div>
+
+</div>
+</body>
+</html>
+
